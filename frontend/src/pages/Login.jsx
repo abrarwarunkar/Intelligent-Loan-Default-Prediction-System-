@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Login = ({ showToast }) => {
     const [username, setUsername] = useState('');
@@ -10,7 +11,7 @@ const Login = ({ showToast }) => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:8081/api/auth/login', { username, password });
+            const res = await axios.post(`${API_URL}/api/auth/login`, { username, password });
             localStorage.setItem('user', JSON.stringify(res.data));
 
             if (showToast) showToast('Login Successful', 'success');

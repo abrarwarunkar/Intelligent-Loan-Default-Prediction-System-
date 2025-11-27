@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement } from 'chart.js';
 import { Pie, Bar, Line } from 'react-chartjs-2';
+import { API_URL } from '../config';
 
 ChartJS.register(ArcElement, Tooltip, Legend, CategoryScale, LinearScale, BarElement, Title, PointElement, LineElement);
 
@@ -22,13 +23,13 @@ const AdminDashboard = () => {
 
     const fetchData = async () => {
         try {
-            const loansRes = await axios.get('http://localhost:8081/api/loan/all');
+            const loansRes = await axios.get(`${API_URL}/api/loan/all`);
             setLoans(loansRes.data);
 
-            const trendsRes = await axios.get('http://localhost:8081/api/admin/analytics/monthly');
+            const trendsRes = await axios.get(`${API_URL}/api/admin/analytics/monthly`);
             setMonthlyTrends(trendsRes.data);
 
-            const riskRes = await axios.get('http://localhost:8081/api/admin/analytics/risk');
+            const riskRes = await axios.get(`${API_URL}/api/admin/analytics/risk`);
             setRiskDist(riskRes.data);
         } catch (error) {
             console.error("Error fetching admin data", error);
@@ -37,7 +38,7 @@ const AdminDashboard = () => {
 
     const handleExport = async () => {
         try {
-            const response = await axios.get('http://localhost:8081/api/admin/export', {
+            const response = await axios.get(`${API_URL}/api/admin/export`, {
                 responseType: 'blob',
             });
             const url = window.URL.createObjectURL(new Blob([response.data]));

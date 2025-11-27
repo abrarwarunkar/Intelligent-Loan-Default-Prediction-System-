@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { Link, useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Dashboard = () => {
     const [loans, setLoans] = useState([]);
@@ -17,7 +18,7 @@ const Dashboard = () => {
 
     const fetchLoans = async () => {
         try {
-            const res = await axios.get(`http://localhost:8081/api/loan/my-loans?username=${user.username}`);
+            const res = await axios.get(`${API_URL}/api/loan/my-loans?username=${user.username}`);
             setLoans(res.data);
         } catch (error) {
             console.error("Error fetching loans", error);

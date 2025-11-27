@@ -1,6 +1,7 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const Profile = () => {
     const navigate = useNavigate();
@@ -23,7 +24,7 @@ const Profile = () => {
 
     const fetchProfile = async () => {
         try {
-            const res = await axios.get(`http://localhost:8081/api/profile/${user.username}`);
+            const res = await axios.get(`${API_URL}/api/profile/${user.username}`);
             setFormData({
                 fullName: res.data.fullName || '',
                 phone: res.data.phone || '',
@@ -44,7 +45,7 @@ const Profile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.put(`http://localhost:8081/api/profile/${user.username}`, formData);
+            await axios.put(`${API_URL}/api/profile/${user.username}`, formData);
             alert('Profile updated successfully!');
         } catch (error) {
             console.error("Error updating profile", error);

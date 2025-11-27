@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import axios from 'axios';
+import { API_URL } from '../config';
 import { useNavigate } from 'react-router-dom';
 
 const LoanForm = ({ showToast }) => {
@@ -31,7 +32,7 @@ const LoanForm = ({ showToast }) => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post(`http://localhost:8081/api/loan/apply?username=${user.username}`, formData);
+            await axios.post(`${API_URL}/api/loan/apply?username=${user.username}`, formData);
             showToast('Application submitted successfully!', 'success');
             navigate('/dashboard');
         } catch (error) {

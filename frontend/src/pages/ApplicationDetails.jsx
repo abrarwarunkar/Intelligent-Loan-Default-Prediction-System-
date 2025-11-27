@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { useParams, useNavigate } from 'react-router-dom';
+import { API_URL } from '../config';
 
 const ApplicationDetails = ({ showToast }) => {
     const { id } = useParams();
@@ -16,12 +17,12 @@ const ApplicationDetails = ({ showToast }) => {
 
     const fetchApplication = async () => {
         try {
-            const res = await axios.get(`http://localhost:8081/api/loan/${id}`);
+            const res = await axios.get(`${API_URL}/api/loan/${id}`);
             setApplication(res.data);
 
             // Fetch risk info if available (or if user is admin)
             try {
-                const riskRes = await axios.get(`http://localhost:8081/api/loan/${id}/risk`);
+                const riskRes = await axios.get(`${API_URL}/api/loan/${id}/risk`);
                 setRisk(riskRes.data);
             } catch (e) {
                 console.log("Risk info not available yet");
@@ -36,7 +37,7 @@ const ApplicationDetails = ({ showToast }) => {
 
     const handleStatusUpdate = async (status) => {
         try {
-            await axios.put(`http://localhost:8081/api/loan/${id}/status?status=${status}`);
+            await axios.put(`${API_URL}/api/loan/${id}/status?status=${status}`);
             if (showToast) showToast(`Application ${status}`, 'success');
             else alert(`Application ${status}`);
             fetchApplication(); // Refresh
@@ -55,7 +56,7 @@ const ApplicationDetails = ({ showToast }) => {
                 <div className="px-6 py-4 bg-blue-600 flex justify-between items-center">
                     <h2 className="text-xl font-bold text-white">Application #{application.id}</h2>
                     <span className={`px-3 py-1 rounded-full text-sm font-semibold ${application.status === 'APPROVED' ? 'bg-green-100 text-green-800' :
-                            application.status === 'REJECTED' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
+                        application.status === 'REJECTED' ? 'bg-red-100 text-red-800' : 'bg-yellow-100 text-yellow-800'
                         }`}>
                         {application.status}
                     </span>
